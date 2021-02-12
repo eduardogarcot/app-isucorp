@@ -43,7 +43,7 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult> PostContact(Contact contact)
         {
-            var itemById = await _context.Contacts.FindAsync(contact.PhoneNumber);
+            var itemById = await _context.Contacts.FindAsync(contact.ContactId);
             var itemByPhone = await _context.Contacts.FirstOrDefaultAsync(c => c.PhoneNumber == contact.PhoneNumber);
             if ((itemById != null && itemByPhone !=null)
                 || contact.Name == null
