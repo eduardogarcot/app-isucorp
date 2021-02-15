@@ -33,9 +33,9 @@ namespace Backend
 
             services.AddDbContext<BackendDbContext>(options =>
                         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllersWithViews()
+            /*services.AddControllersWithViews()
                         .AddJsonOptions(o => o.JsonSerializerOptions
-                        .ReferenceHandler = ReferenceHandler.Preserve);
+                        .ReferenceHandler = ReferenceHandler.Preserve);*/
             services.AddCors(c =>
             {
                 c.AddDefaultPolicy(
