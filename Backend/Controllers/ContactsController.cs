@@ -26,8 +26,7 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<IEnumerable<Contact>> Get()
         {
-            return await _context.Contacts
-                 .Include(r => r.ReservationsList).ToListAsync();
+            return await _context.Contacts.ToListAsync();
         }
 
         // GET api/contact/:id
@@ -45,7 +44,7 @@ namespace Backend.Controllers
         {
             var itemById = await _context.Contacts.FindAsync(contact.ContactId);
             var itemByPhone = await _context.Contacts.FirstOrDefaultAsync(c => c.PhoneNumber == contact.PhoneNumber);
-            if ((itemById != null && itemByPhone !=null)
+            if ( itemByPhone != null
                 || contact.Name == null
                 || contact.PhoneNumber < 1000000)
                 return BadRequest();
