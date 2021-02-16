@@ -37,18 +37,26 @@ namespace Backend
                         .AddJsonOptions(o => o.JsonSerializerOptions
                         .ReferenceHandler = ReferenceHandler.Preserve);*/
             services.AddCors(c =>
-            {
-                c.AddDefaultPolicy(
-                    options => options.AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials());
-            });
+              {
+                  c.AddPolicy("default",
+                      options => options.SetIsOriginAllowed(_ => true)
+                      .AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowCredentials());
+              });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("default");
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
+                context.Response.Headers.Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
+                context.Response.Headers.Add("Access-Control-Allow-Headers", " Origin, Content-Type, X-Auth-Token");
+                await next.Invoke();
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -64,6 +72,8 @@ namespace Backend
             {
                 endpoints.MapControllers();
             });
+            
+            
         }
     }
 }
