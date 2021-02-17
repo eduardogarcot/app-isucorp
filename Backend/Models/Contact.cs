@@ -9,6 +9,7 @@ namespace Backend.Models
         [Key]
         public int ContactId { get; set; }
         
+        public int contactType { get; set; }
         public long PhoneNumber{ get; set; }
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }

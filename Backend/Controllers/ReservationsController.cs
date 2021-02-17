@@ -48,8 +48,11 @@ namespace Backend.Controllers
                 || (reservation.Rate < 0 || reservation.Rate > 5))
                 return BadRequest();
             reservation.Contact = phoneNumber;
+            reservation.CratedDate = DateTime.Now;
             await _context.Reservations.AddAsync(reservation);
             await _context.SaveChangesAsync();
+            var outputItem = reservation;
+            outputItem.Contact = null;
             return CreatedAtAction(nameof(GetReservationById), new { id = reservation.ReservationId }, reservation);
         }
 
