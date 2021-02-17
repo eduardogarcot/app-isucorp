@@ -4,20 +4,19 @@
 Technologies: 
   - ASP .NET Core 5.0.3
   - Entity Framework. 
-  - Microsoft SQL Server 2019 Express Edition.  
+  - Microsoft SQL Server 2019 Express Edition.
+  - (Preferably) Microsoft Visual Studio Professional 2019 Version 16.8.5  
 
-# Installing:
-  dotnet restore
 
-# Instalation with Visual Studio: 
-    1. Open the solution in VS 2019
+# Installing with Visual Studio: 
+    1. Open the solution in VS
     2. (Optional) Modify the connection string in appsettings.json to reflect your database environment
     3. Open Package Manager Console and and run the following commands
         Add-Migration Initial
         Update-Database
     4. Build and run the Project
 
-# Instalation without Visual Studio (dotnet CLI):
+# Installing without Visual Studio (dotnet CLI):
     1. In Console (cmd, poweshell, dotnet CLI) navigate to Backend directory
     2. (Optional) Modify the connection string in appsettings.json to reflect your database environment
     3. Run the following commands:
