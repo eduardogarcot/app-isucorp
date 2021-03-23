@@ -4,7 +4,7 @@ using Backend.Core.Repositories;
 
 namespace Backend.Core
 {
-    interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IContactRepository Contacts { get; }
         IReservationRepository Reservations { get; }
