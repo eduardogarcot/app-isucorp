@@ -8,6 +8,6 @@ namespace Backend.Core.Repositories
 {
     interface IContactRepository: IRepository<Contact> 
     {
-        Task<IEnumerable<Contact>> GetAllWithReservations();
+        Task<IEnumerable<Contact>> GetAllWithReservationsAsync();
     }
 }
