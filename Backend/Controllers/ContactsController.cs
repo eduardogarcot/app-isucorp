@@ -54,8 +54,8 @@ namespace Backend.Controllers
         {
             var contactToUpdate = await _contactService.GetContactById(id);
             if (contactToUpdate == null) return NotFound();
-            await _contactService.UpdateContact(contactToUpdate, contact);
-            return NoContent();
+            var UpdatedContact = await _contactService.UpdateContact(contactToUpdate, contact);
+            return UpdatedContact == null ? BadRequest() : NoContent();
         }
 
         // DELETE api/contact/:id

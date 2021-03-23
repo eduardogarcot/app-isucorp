@@ -12,7 +12,7 @@ namespace Backend.Core.Services
         Task<IEnumerable<Contact>> GetAllReservations();
         Task<Contact> GetContactById(int id);
         Task<Contact> CreateContact(Contact newContact);
-        Task UpdateContact(Contact contactToBeUpdated, Contact contact);
+        Task<Contact> UpdateContact(Contact contactToBeUpdated, Contact contact);
         Task DeleteContact(Contact contact);
     }
 }

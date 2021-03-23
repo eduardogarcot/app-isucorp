@@ -47,13 +47,17 @@ namespace Backend.Services
             return await _unitOfWork.Contacts.GetByIdAsync(id);
         }
 
-        public async Task UpdateContact(Contact contactToBeUpdated, Contact contact)
+        public async Task<Contact> UpdateContact(Contact contactToBeUpdated, Contact contact)
         {
+            var contactMatchedByPhoneNumber = (await _unitOfWork.Contacts.GetAllAsync()).FirstOrDefault(c => c.PhoneNumber == contact.PhoneNumber);
+            if (contactMatchedByPhoneNumber != null && contact.PhoneNumber != contactToBeUpdated.PhoneNumber ) 
+                return null; 
             contactToBeUpdated.Name = contact.Name;
             contactToBeUpdated.PhoneNumber = contact.PhoneNumber;
             contactToBeUpdated.BirthDate = contact.BirthDate;
             contactToBeUpdated.contactType = contact.contactType;
             await _unitOfWork.CommitAsync();
+            return contactToBeUpdated;
         }
 
         public async Task<Contact> ValidateContactAsync(Contact contact)
