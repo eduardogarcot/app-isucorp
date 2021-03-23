@@ -1,4 +1,4 @@
-﻿using Backend.Models;
+﻿using Backend.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace Backend.Persistence
         {
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.Contact)
-                .WithMany(c => c.ReservationsList)
+                .WithMany(c => c.Reservations)
                 .HasForeignKey(r => r.ContactId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
