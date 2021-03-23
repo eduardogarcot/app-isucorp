@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Backend.Core.Repositories;
 
-namespace Backend.Core.Repositories
+namespace Backend.Core
 {
-    interface IUnitOfWork
+    interface IUnitOfWork : IDisposable
     {
         IContactRepository Contacts { get; }
         IReservationRepository Reservations { get; }
