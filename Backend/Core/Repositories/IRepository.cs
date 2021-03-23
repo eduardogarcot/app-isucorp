@@ -10,7 +10,7 @@ namespace Backend.Core.Repositories
     {
         ValueTask<TEntity> GetByIdAsync(int id);
         Task<IEnumerable<TEntity>> GetAllAsync();
-        Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
+        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
         Task AddAsync(TEntity Entity);
         void Remove(TEntity Entity);
     }
