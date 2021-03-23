@@ -63,7 +63,7 @@ namespace Backend.Services
             var reservationMatchedById = await _unitOfWork.Reservations.GetByIdAsync(reservation.ReservationId);
             var contactMatchedById = await _unitOfWork.Contacts.GetByIdAsync(reservation.ContactId);
             reservation.CratedDate = DateTime.Now;
-            if (reservationMatchedById != null || contactMatchedById != null)
+            if (reservationMatchedById != null || contactMatchedById == null)
                 return null;
             return reservation;
         }

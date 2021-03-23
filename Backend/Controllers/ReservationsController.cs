@@ -44,7 +44,7 @@ namespace Backend.Controllers
         {
             var newReservation = await _reservationService.CreateReservation(reservation);
             if (newReservation == null) return BadRequest();
-            return CreatedAtAction(nameof(GetReservationById), new { id = reservation.ReservationId }, reservation);
+            return StatusCode(201);
         }
 
         // PUT api/reservations/:id
