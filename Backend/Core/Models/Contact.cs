@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Backend.Models
+namespace Backend.Core.Models
 {
     public class Contact
     {
+        public Contact()
+        {
+            Reservations = new List<Reservation>();
+        }
         [Key]
         public int ContactId { get; set; }
         
@@ -15,6 +19,6 @@ namespace Backend.Models
         public DateTime BirthDate { get; set; }
         public string Description { get; set; }
         
-        public ICollection<Reservation> ReservationsList { get; set; }
+        public IList<Reservation> Reservations { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Backend.Models
+namespace Backend.Core.Models
 {
     public class Reservation
     {
