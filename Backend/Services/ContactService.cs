@@ -58,9 +58,9 @@ namespace Backend.Services
 
         public async Task<Contact> ValidateContactAsync(Contact contact)
         {
-            var items = await _unitOfWork.Contacts.GetAllAsync();
-            if (items.FirstOrDefault(c=>c.ContactId == contact.ContactId) != null
-                || items.FirstOrDefault(c => c.PhoneNumber == contact.PhoneNumber) != null)
+            var itemMatchedById = await _unitOfWork.Contacts.GetByIdAsync(contact.ContactId);
+            var itemMatchedByPhoneNumber = (await _unitOfWork.Contacts.GetAllAsync()).FirstOrDefault((c => c.PhoneNumber == contact.PhoneNumber));
+            if (itemMatchedById != null || itemMatchedByPhoneNumber!= null)
                 return null;
             return contact;
         }

@@ -18,9 +18,13 @@ namespace Backend.Services
 
         public async Task<Reservation> CreateReservation(Reservation newReservation)
         {
-            await _unitOfWork.Reservations.AddAsync(newReservation);
-            await _unitOfWork.CommitAsync();
-            return newReservation;
+            var reservationToCreate = await ReservationValidation(newReservation);
+            if (reservationToCreate != null)
+            {
+                await _unitOfWork.Reservations.AddAsync(reservationToCreate);
+                await _unitOfWork.CommitAsync();
+            }
+            return reservationToCreate;
         }
 
         public async Task DeleteReservation(Reservation reservation)
@@ -52,6 +56,16 @@ namespace Backend.Services
             reservationToBeUpdated.ReservationDate = reservation.ReservationDate;
             reservationToBeUpdated.ContactId = reservation.ContactId;
             await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<Reservation> ReservationValidation(Reservation reservation)
+        {
+            var reservationMatchedById = await _unitOfWork.Reservations.GetByIdAsync(reservation.ReservationId);
+            var contactMatchedById = await _unitOfWork.Contacts.GetByIdAsync(reservation.ContactId);
+            reservation.CratedDate = DateTime.Now;
+            if (reservationMatchedById != null || contactMatchedById != null)
+                return null;
+            return reservation;
         }
     }
 }

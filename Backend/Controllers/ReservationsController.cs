@@ -55,6 +55,7 @@ namespace Backend.Controllers
             var outputItem = reservation;
             outputItem.Contact = null;*/
             var newReservation = await _reservationService.CreateReservation(reservation);
+            if (newReservation == null) return BadRequest();
             return CreatedAtAction(nameof(GetReservationById), new { id = reservation.ReservationId }, reservation);
         }
 
