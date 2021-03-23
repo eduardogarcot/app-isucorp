@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Core.Repositories
 {
-    interface IContactRepository: IRepository<Contact> 
+    public interface IContactRepository: IRepository<Contact> 
     {
         Task<IEnumerable<Contact>> GetAllWithReservationsAsync();
     }

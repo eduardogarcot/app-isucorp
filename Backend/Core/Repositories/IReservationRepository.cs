@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Core.Repositories
 {
-    interface IReservationRepository : IRepository<Reservation>
+    public interface IReservationRepository : IRepository<Reservation>
     {
         Task<Reservation> GetWithContactByIdAsync(int id);
     }
