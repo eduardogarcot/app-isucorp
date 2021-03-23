@@ -42,18 +42,6 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult> PostReservation(Reservation reservation)
         {
-            /*var item = await _context.Reservations.FindAsync(reservation.ReservationId);
-            var phoneNumber = await _context.Contacts.FindAsync(reservation.ContactId);
-            if (item != null
-                || phoneNumber == null
-                || (reservation.Rate < 0 || reservation.Rate > 5))
-                return BadRequest();
-            reservation.Contact = phoneNumber;
-            reservation.CratedDate = DateTime.Now;
-            await _context.Reservations.AddAsync(reservation);
-            await _context.SaveChangesAsync();
-            var outputItem = reservation;
-            outputItem.Contact = null;*/
             var newReservation = await _reservationService.CreateReservation(reservation);
             if (newReservation == null) return BadRequest();
             return CreatedAtAction(nameof(GetReservationById), new { id = reservation.ReservationId }, reservation);
@@ -65,15 +53,6 @@ namespace Backend.Controllers
         {
             var item = await _reservationService.GetReservationById(id);
             if (item == null) return NotFound();
-            /*var phoneNumber = await _context.Contacts.FindAsync(reservation.ContactId);
-            if (id != reservation.ReservationId
-                || phoneNumber == null
-                || (reservation.Rate < 0 || reservation.Rate > 5))
-                return BadRequest();
-            reservation.Contact = phoneNumber;
-            _context.Entry(item).State = EntityState.Detached;
-            _context.Entry(reservation).State = EntityState.Modified;
-            await _context.SaveChangesAsync();*/
             await _reservationService.UpdateReservation(item, reservation);
             return NoContent();
         }
