@@ -27,7 +27,7 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<IEnumerable<Contact>> Get()
         {
-            return await _contactService.GetAllWithReservations();
+            return await _contactService.GetAllReservations();
         }
 
         // GET api/contact/:id
@@ -43,13 +43,8 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult> PostContact(Contact contact)
         {
-            /*var itemById = await _context.Contacts.FindAsync(contact.ContactId);
-            var itemByPhone = await _context.Contacts.FirstOrDefaultAsync(c => c.PhoneNumber == contact.PhoneNumber);
-            if ( itemByPhone != null
-                || contact.Name == null
-                || contact.PhoneNumber < 1000000)
-                return BadRequest();*/
             var newContact = await _contactService.CreateContact(contact);
+            if (newContact == null) return BadRequest();
             return CreatedAtAction(nameof(GetContactById), new { id = contact.ContactId }, contact);
         }
 
@@ -59,10 +54,6 @@ namespace Backend.Controllers
         {
             var contactToUpdate = await _contactService.GetContactById(id);
             if (contactToUpdate == null) return NotFound();
-            /*if (id != contact.PhoneNumber || contact.Name == null) return BadRequest();
-            _context.Entry(item).State = EntityState.Detached;
-            _context.Entry(contact).State = EntityState.Modified;
-            await _context.SaveChangesAsync();*/
             await _contactService.UpdateContact(contactToUpdate, contact);
             return NoContent();
         }

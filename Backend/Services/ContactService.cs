@@ -17,9 +17,13 @@ namespace Backend.Services
         }
         public async Task<Contact> CreateContact(Contact newContact)
         {
-            await _unitOfWork.Contacts.AddAsync(newContact);
-            await _unitOfWork.CommitAsync();
-            return newContact;
+            var contactToAdd = await ValidateContactAsync(newContact);
+            if (contactToAdd != null)
+            {
+                await _unitOfWork.Contacts.AddAsync(contactToAdd);
+                await _unitOfWork.CommitAsync();
+            }
+            return contactToAdd;
         }
 
         public async Task DeleteContact(Contact contact)
@@ -31,6 +35,11 @@ namespace Backend.Services
         public async Task<IEnumerable<Contact>> GetAllWithReservations()
         {
             return await _unitOfWork.Contacts.GetAllWithReservationsAsync();
+        }
+
+        public async Task<IEnumerable<Contact>> GetAllReservations()
+        {
+            return await _unitOfWork.Contacts.GetAllAsync();
         }
 
         public async Task<Contact> GetContactById(int id)
@@ -45,6 +54,15 @@ namespace Backend.Services
             contactToBeUpdated.BirthDate = contact.BirthDate;
             contactToBeUpdated.contactType = contact.contactType;
             await _unitOfWork.CommitAsync();
+        }
+
+        public async Task<Contact> ValidateContactAsync(Contact contact)
+        {
+            var items = await _unitOfWork.Contacts.GetAllAsync();
+            if (items.FirstOrDefault(c=>c.ContactId == contact.ContactId) != null
+                || items.FirstOrDefault(c => c.PhoneNumber == contact.PhoneNumber) != null)
+                return null;
+            return contact;
         }
     }
 }

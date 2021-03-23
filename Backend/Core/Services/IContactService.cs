@@ -9,6 +9,7 @@ namespace Backend.Core.Services
     public interface IContactService
     {
         Task<IEnumerable<Contact>> GetAllWithReservations();
+        Task<IEnumerable<Contact>> GetAllReservations();
         Task<Contact> GetContactById(int id);
         Task<Contact> CreateContact(Contact newContact);
         Task UpdateContact(Contact contactToBeUpdated, Contact contact);
