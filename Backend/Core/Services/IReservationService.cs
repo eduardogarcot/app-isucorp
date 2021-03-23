@@ -6,7 +6,7 @@ using Backend.Core.Models;
 
 namespace Backend.Core.Services
 {
-    interface IReservationService
+    public interface IReservationService
     {
         Task<IEnumerable<Reservation>> GetAllReservations();
         Task<Reservation> GetReservationById(int id);

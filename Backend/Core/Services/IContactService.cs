@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Backend.Core.Services
 {
-    interface IContactService
+    public interface IContactService
     {
         Task<IEnumerable<Contact>> GetAllWithReservations();
         Task<Contact> GetContactById(int id);
