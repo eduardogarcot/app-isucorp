@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Backend.Core.Services;
+using Backend.Services;
 
 namespace Backend
 {
@@ -35,6 +37,8 @@ namespace Backend
             services.AddDbContext<BackendDbContext>(options =>
                         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IContactService, ContactService>();
+            services.AddTransient<IReservationService, ReservationService>();
             /*services.AddControllersWithViews()
                         .AddJsonOptions(o => o.JsonSerializerOptions
                         .ReferenceHandler = ReferenceHandler.Preserve);*/
