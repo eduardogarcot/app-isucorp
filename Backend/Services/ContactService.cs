@@ -15,7 +15,7 @@ namespace Backend.Services
         {
             this._unitOfWork = unitOfWork;
         }
-        public async Task<Contact> CreateMusic(Contact newContact)
+        public async Task<Contact> CreateContact(Contact newContact)
         {
             await _unitOfWork.Contacts.AddAsync(newContact);
             await _unitOfWork.CommitAsync();

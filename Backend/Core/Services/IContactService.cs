@@ -10,7 +10,7 @@ namespace Backend.Core.Services
     {
         Task<IEnumerable<Contact>> GetAllWithReservations();
         Task<Contact> GetContactById(int id);
-        Task<Contact> CreateMusic(Contact newContact);
+        Task<Contact> CreateContact(Contact newContact);
         Task UpdateContact(Contact contactToBeUpdated, Contact contact);
         Task DeleteContact(Contact contact);
     }
