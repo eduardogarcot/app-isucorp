@@ -1,4 +1,5 @@
-﻿using Backend.Models;
+﻿using Backend.Core.Models;
+using Backend.Core.Services;
 using Backend.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,25 +15,25 @@ namespace Backend.Controllers
     [ApiController]
     public class ReservationsController : Controller
     {
-        private readonly BackendDbContext _context;
+        private readonly IReservationService _reservationService;
 
-        public ReservationsController(BackendDbContext context)
+        public ReservationsController(IReservationService reservationService)
         {
-            _context = context;
+            this._reservationService = reservationService;
         }
 
         // GET: api/reservations
         [HttpGet]
-        public IEnumerable<Reservation> GetReservations()
+        public async Task<IEnumerable<Reservation>> GetReservations()
         {
-            return _context.Reservations;
+            return await _reservationService.GetAllReservations();
         }
 
         // GET api/reservations/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Reservation>> GetReservationById(int id)
         {
-            var item = await _context.Reservations.FindAsync(id);
+            var item = await _reservationService.GetReservationById(id);
             if (item == null) return NotFound();
             return item;
         }
@@ -41,7 +42,7 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult> PostReservation(Reservation reservation)
         {
-            var item = await _context.Reservations.FindAsync(reservation.ReservationId);
+            /*var item = await _context.Reservations.FindAsync(reservation.ReservationId);
             var phoneNumber = await _context.Contacts.FindAsync(reservation.ContactId);
             if (item != null
                 || phoneNumber == null
@@ -52,7 +53,8 @@ namespace Backend.Controllers
             await _context.Reservations.AddAsync(reservation);
             await _context.SaveChangesAsync();
             var outputItem = reservation;
-            outputItem.Contact = null;
+            outputItem.Contact = null;*/
+            var newReservation = await _reservationService.CreateReservation(reservation);
             return CreatedAtAction(nameof(GetReservationById), new { id = reservation.ReservationId }, reservation);
         }
 
@@ -60,9 +62,9 @@ namespace Backend.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateReservation(int id, Reservation reservation)
         {
-            var item = await _context.Reservations.FindAsync(id);
-            var phoneNumber = await _context.Contacts.FindAsync(reservation.ContactId);
+            var item = await _reservationService.GetReservationById(id);
             if (item == null) return NotFound();
+            /*var phoneNumber = await _context.Contacts.FindAsync(reservation.ContactId);
             if (id != reservation.ReservationId
                 || phoneNumber == null
                 || (reservation.Rate < 0 || reservation.Rate > 5))
@@ -70,7 +72,8 @@ namespace Backend.Controllers
             reservation.Contact = phoneNumber;
             _context.Entry(item).State = EntityState.Detached;
             _context.Entry(reservation).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();*/
+            await _reservationService.UpdateReservation(item, reservation);
             return NoContent();
         }
 
@@ -78,10 +81,9 @@ namespace Backend.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteReservation(int id)
         {
-            var item = await _context.Reservations.FindAsync(id);
-            if (item == null) return NotFound();
-            _context.Reservations.Remove(item);
-            await _context.SaveChangesAsync();
+            var reservationToDelete = await _reservationService.GetReservationById(id);
+            if (reservationToDelete == null) return NotFound();
+            await _reservationService.DeleteReservation(reservationToDelete);
             return NoContent();
         }
     }

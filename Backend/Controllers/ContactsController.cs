@@ -64,7 +64,6 @@ namespace Backend.Controllers
             _context.Entry(contact).State = EntityState.Modified;
             await _context.SaveChangesAsync();*/
             await _contactService.UpdateContact(contactToUpdate, contact);
-            var updateContact = await _contactService.GetContactById(id);
             return NoContent();
         }
 
