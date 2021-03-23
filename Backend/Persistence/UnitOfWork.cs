@@ -19,9 +19,9 @@ namespace Backend.Persistence
             this._context = context;
         }
 
-        IContactRepository IUnitOfWork.Contacts => _contactRepository = _contactRepository ?? new ContactRepository(_context);
+        public IContactRepository Contacts => _contactRepository = _contactRepository ?? new ContactRepository(_context);
 
-        IReservationRepository IUnitOfWork.Reservations => _reservationRepository = _reservationRepository ?? new ReservationRepository(_context);
+        public IReservationRepository Reservations => _reservationRepository = _reservationRepository ?? new ReservationRepository(_context);
 
         public async Task<int> CommitAsync()
         {
