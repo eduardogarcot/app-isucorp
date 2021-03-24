@@ -1,4 +1,5 @@
-﻿using Backend.Models;
+﻿using Backend.Core.Models;
+using Backend.Core.Services;
 using Backend.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,25 +16,25 @@ namespace Backend.Controllers
     [ApiController]
     public class ContactsController : Controller
     {
-        private readonly BackendDbContext _context;
+        private readonly IContactService _contactService;
 
-        public ContactsController(BackendDbContext context)
+        public ContactsController(IContactService contactService)
         {
-            _context = context;
+            _contactService = contactService;
         }
 
         // GET: api/contact
         [HttpGet]
         public async Task<IEnumerable<Contact>> Get()
         {
-            return await _context.Contacts.ToListAsync();
+            return await _contactService.GetAllReservations();
         }
 
         // GET api/contact/:id
         [HttpGet("{id}")]
         public async Task<ActionResult<Contact>> GetContactById(int id)
         {
-            var item = await _context.Contacts.FindAsync(id);
+            var item = await _contactService.GetContactById(id);
             if (item == null) return NotFound();
             return item;
         }
@@ -42,14 +43,8 @@ namespace Backend.Controllers
         [HttpPost]
         public async Task<ActionResult> PostContact(Contact contact)
         {
-            var itemById = await _context.Contacts.FindAsync(contact.ContactId);
-            var itemByPhone = await _context.Contacts.FirstOrDefaultAsync(c => c.PhoneNumber == contact.PhoneNumber);
-            if ( itemByPhone != null
-                || contact.Name == null
-                || contact.PhoneNumber < 1000000)
-                return BadRequest();
-            await _context.Contacts.AddAsync(contact);
-            await _context.SaveChangesAsync();
+            var newContact = await _contactService.CreateContact(contact);
+            if (newContact == null) return BadRequest();
             return CreatedAtAction(nameof(GetContactById), new { id = contact.ContactId }, contact);
         }
 
@@ -57,23 +52,19 @@ namespace Backend.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateContact(int id, Contact contact)
         {
-            var item = await _context.Contacts.FindAsync(id);
-            if (item == null) return NotFound();
-            if (id != contact.PhoneNumber || contact.Name == null) return BadRequest();
-            _context.Entry(item).State = EntityState.Detached;
-            _context.Entry(contact).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-            return NoContent();
+            var contactToUpdate = await _contactService.GetContactById(id);
+            if (contactToUpdate == null) return NotFound();
+            var UpdatedContact = await _contactService.UpdateContact(contactToUpdate, contact);
+            return UpdatedContact == null ? BadRequest() : NoContent();
         }
 
         // DELETE api/contact/:id
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteContact(int id)
         {
-            var item = await _context.Contacts.FindAsync(id);
-            if (item == null) return NotFound();
-            _context.Contacts.Remove(item);
-            await _context.SaveChangesAsync();
+            var contactToDelete = await _contactService.GetContactById(id);
+            if (contactToDelete == null) return NotFound();
+            await _contactService.DeleteContact(contactToDelete);
             return NoContent();
         }
     }

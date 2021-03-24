@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Backend.Models
+namespace Backend.Core.Models
 {
     public class Reservation
     {
@@ -11,7 +11,7 @@ namespace Backend.Models
         public DateTime ReservationDate { get; set; }
         public bool isFavorite { get; set; }
         public int Rate { get; set; }
-
+        public string Description { get; set; }
         public int ContactId { get; set; }
         public Contact Contact { get; set; }
     }
