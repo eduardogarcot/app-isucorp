@@ -27,7 +27,7 @@ namespace Backend.Controllers
         [HttpGet]
         public async Task<IEnumerable<Contact>> Get()
         {
-            return await _contactService.GetAllWithReservations();
+            return await _contactService.GetAllContacts();
         }
 
         // GET api/contact/:id
