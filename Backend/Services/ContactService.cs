@@ -34,7 +34,8 @@ namespace Backend.Services
 
         public async Task<IEnumerable<Contact>> GetAllWithReservations()
         {
-            return await _unitOfWork.Contacts.GetAllWithReservationsAsync();
+            return await _unitOfWork.Contacts.GetAllContactsAsync();
+            // return await _unitOfWork.Contacts.GetAllWithReservationsAsync();
         }
 
         public async Task<IEnumerable<Contact>> GetAllReservations()

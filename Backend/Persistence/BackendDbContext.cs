@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Backend.Persistence
 {

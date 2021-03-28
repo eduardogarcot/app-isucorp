@@ -25,5 +25,9 @@ namespace Backend.Persistence.Repositories
                 .Include( c => c.Reservations)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<Contact>> GetAllContactsAsync()
+        {
+            return await BackendDbContext.Contacts.FromSqlInterpolated($"GetAllContacts").ToListAsync();
+        }
     }
 }
