@@ -9,5 +9,6 @@ namespace Backend.Core.Repositories
     public interface IContactRepository: IRepository<Contact> 
     {
         Task<IEnumerable<Contact>> GetAllWithReservationsAsync();
+        Task<IEnumerable<Contact>> GetAllContactsAsync();
     }
 }

@@ -21,6 +21,7 @@ namespace Backend
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("https://localhost:5001/");
                 });
     }
 }

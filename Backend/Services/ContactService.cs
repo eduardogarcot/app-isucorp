@@ -32,14 +32,9 @@ namespace Backend.Services
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<IEnumerable<Contact>> GetAllWithReservations()
+        public async Task<IEnumerable<Contact>> GetAllContacts()
         {
-            return await _unitOfWork.Contacts.GetAllWithReservationsAsync();
-        }
-
-        public async Task<IEnumerable<Contact>> GetAllReservations()
-        {
-            return await _unitOfWork.Contacts.GetAllAsync();
+            return await _unitOfWork.Contacts.GetAllContactsAsync();
         }
 
         public async Task<Contact> GetContactById(int id)
